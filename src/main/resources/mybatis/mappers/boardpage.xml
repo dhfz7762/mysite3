@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardpage">
 <select id="countBoard" resultType="int">
 <![CDATA[
@@ -9,9 +10,18 @@ select count(*) from board
 <![CDATA[
 select *
 from (select rownum rn, a.*
-from(select * from board
-order by no desc) a )
+from(select b.no,
+       b.title,
+       b.content,
+       b.hit,
+       to_char(b.reg_date,'YYYY/MM/DD') regDate,
+       a.name username,
+       b.user_no
+from board b join uservo a on a.no = b.user_no
+order by b.no desc) a )
 where rn between #{start} and #{end}
+
+
 ]]>
 </select>
 </mapper>

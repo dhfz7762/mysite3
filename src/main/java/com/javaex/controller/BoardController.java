@@ -33,13 +33,15 @@ public class BoardController {
 		int total = boardPageService.countBoard();
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "10";
+			cntPerPage = "5";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) { 
-			cntPerPage = "10";
+			cntPerPage = "5";
 		}
+		//boardPageService.selectBoard(vo)
 		vo = new BoardPageVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
 		model.addAttribute("paging", vo);
 		model.addAttribute("boardList", boardPageService.selectBoard(vo));
 		
