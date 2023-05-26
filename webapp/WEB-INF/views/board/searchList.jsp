@@ -12,12 +12,7 @@
 	rel="stylesheet" type="text/css">
 
 </head>
-<script>
-	function selChange() {
-		var sel = document.getElementById('cntPerPage').value;
-		location.href = "boardList?nowPage=${paging.nowPage}&cntPerPage=" + sel;
-	}
-</script>
+
 
 <body>
 	<div id="wrap">
@@ -39,7 +34,6 @@
 
 		<div id="content">
 
-
 			<div id="content-head">
 				<h3>게시판</h3>
 				<div id="location">
@@ -52,23 +46,6 @@
 				<div class="clear"></div>
 			</div>
 			<!-- //content-head -->
-			<div style="float: right;">
-				<select id="cntPerPage" name="sel" onchange="selChange()">
-					<option value="5"
-						<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄
-						보기</option>
-					<option value="10"
-						<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄
-						보기</option>
-					<option value="15"
-						<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄
-						보기</option>
-					<option value="20"
-						<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄
-						보기</option>
-				</select>
-			</div>
-			<!-- 옵션선택 끝 -->
 
 			<div id="board">
 				<div id="list">
@@ -110,46 +87,39 @@
 						</c:forEach>
 					</table>
 
-					<div style="display: block; text-align: center;">
-						<c:if test="${paging.startPage != 1 }">
-							<a
-								href="/boardList?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-						</c:if>
-						<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
-							var="p">
-							<c:choose>
-								<c:when test="${p == paging.nowPage }">
-									<b>${p }</b>
-								</c:when>
-								<c:when test="${p != paging.nowPage }">
-									<a
-										href="/boardList?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-								</c:when>
-							</c:choose>
-						</c:forEach>
-						<c:if test="${paging.endPage != paging.lastPage}">
-							<a
-								href="/boardList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-						</c:if>
+					<div id="paging">
+						<ul>
+							<li><a href="">◀</a></li>
+							<li><a href="">1</a></li>
+							<li><a href="">2</a></li>
+							<li><a href="">3</a></li>
+							<li><a href="">4</a></li>
+							<li class="active"><a href="">5</a></li>
+							<li><a href="">6</a></li>
+							<li><a href="">7</a></li>
+							<li><a href="">8</a></li>
+							<li><a href="">9</a></li>
+							<li><a href="">10</a></li>
+							<li><a href="">▶</a></li>
+						</ul>
+
+
+						<div class="clear"></div>
 					</div>
-
-
-					<div class="clear"></div>
+					<c:if test="${sessionScope.authUser.no != null }">
+						<a id="btn_write"
+							href="${pageContext.request.contextPath}/board/writeForm">글쓰기</a>
+					</c:if>
 				</div>
-				<c:if test="${sessionScope.authUser.no != null }">
-					<a id="btn_write"
-						href="${pageContext.request.contextPath}/board/writeForm">글쓰기</a>
-				</c:if>
+				<!-- //list -->
 			</div>
-			<!-- //list -->
+			<!-- //board -->
 		</div>
-		<!-- //board -->
-	</div>
-	<!-- //content  -->
-	<div class="clear"></div>
+		<!-- //content  -->
+		<div class="clear"></div>
 
-	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
-	<!-- //footer -->
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
+		<!-- //footer -->
 	</div>
 	<!-- //wrap -->
 

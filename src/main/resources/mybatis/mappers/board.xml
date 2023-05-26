@@ -1,43 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mysite">
-<insert id="insertUser" parameterType="com.javaex.vo.UserVo">
-<![CDATA[
-insert into uservo
-           (no,
-            id,
-            password,
-            name,
-            gender)
-values (seq_uservo_no.nextval,
-        #{id},
-        #{password},
-        #{name},
-        #{gender})
-]]>
-</insert>
-<select id="loginUser" resultType="com.javaex.vo.UserVo">
-<![CDATA[
-select no,
-       id,
-       password,
-       name,
-       gender
-       from uservo
-       where id=#{id}
-       and password=#{password}
-]]>
-</select>
-<update id="modifyUser" parameterType="com.javaex.vo.UserVo">
-<![CDATA[
-update uservo
-set password=#{password},
-    name=#{name},
-    gender=#{gender}
-where no=#{no} and id=#{id}
-]]>
-</update>
+<mapper namespace="board">
 <insert id="writeBoard" parameterType="com.javaex.vo.BoardVo">
 <![CDATA[
 insert into board
@@ -74,6 +38,34 @@ from board b join uservo a on a.no = b.user_no
 order by b.no desc
 ]]>
 </select>
+<select id="searchUsernameBoard" resultType="com.javaex.vo.BoardVo">
+<![CDATA[
+select b.no,
+       b.title,
+       b.content,
+       b.hit,
+       to_char(b.reg_date,'YYYY/MM/DD') regDate,
+       a.name username,
+       b.user_no
+from board b join uservo a on a.no = b.user_no
+where a.name like '%'||#{username}||'%'
+order by b.no desc
+]]>
+</select>
+<select id="searchTitleBoard" resultType="com.javaex.vo.BoardVo">
+<![CDATA[
+select b.no,
+       b.title,
+       b.content,
+       b.hit,
+       to_char(b.reg_date,'YYYY/MM/DD') regDate,
+       a.name username,
+       b.user_no
+from board b join uservo a on a.no = b.user_no
+where b.title like '%'||#{title}||'%'
+order by b.no desc
+]]>
+</select>
 <select id="readBoard" resultType="com.javaex.vo.BoardVo">
 <![CDATA[
 select b.no,
@@ -102,37 +94,5 @@ content=#{content}
 where no=#{no}
 ]]>
 </update>
-<insert id="addGuestBook" parameterType="com.javaex.vo.GuestbookVo">
-<![CDATA[
-insert into guestbook
-           (no,
-            name,
-            password,
-            content,
-            reg_date)
-values (seq_guestbook_no.nextval,
-        #{name},
-        #{password},
-        #{content},
-        sysdate)
-]]>
-</insert>
 
-<select id="getAddList" resultType="com.javaex.vo.GuestbookVo">
-<![CDATA[
-select no,
-       name,
-       password,
-       content,
-       to_char(reg_date,'YYYY/MM/DD') regDate
-from guestbook
-order by no desc
-]]>
-</select>
-<delete id="deleteGuestbook" parameterType="com.javaex.vo.GuestbookVo">
-<![CDATA[
-delete from guestbook
-where no=#{no} and password=#{password}
-]]>
-</delete>
 </mapper>

@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.javaex.dao.BoardPageDao;
+import com.javaex.service.BoardPageService;
 import com.javaex.service.BoardService;
+import com.javaex.vo.BoardPageVo;
 import com.javaex.vo.BoardVo;
 
 @Controller
@@ -18,13 +21,27 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private BoardPageService boardPageService;
 
 	
 	@RequestMapping(value="/board/list",method= {RequestMethod.GET,RequestMethod.POST})
-	public String list(Model model) {
-		List<BoardVo> boardList = boardService.getBoardList();
-		model.addAttribute("boardList", boardList);
-		
+	public String list(Model model,BoardPageVo vo,@RequestParam(value="nowPage", required=false)String nowPage
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+		//List<BoardVo> boardList = boardService.getBoardList();
+		//model.addAttribute("boardList", boardList);
+		int total = boardPageService.countBoard();
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "10";
+		}
+		vo = new BoardPageVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+		model.addAttribute("boardList", boardPageService.selectBoard(vo));
 		
 		return "board/list";
 	}
@@ -66,5 +83,11 @@ public class BoardController {
 	public String delete(@RequestParam("no") int no) {
 		boardService.deleteBoard(no);
 		return "redirect:/board/list";	
+	}
+	@RequestMapping(value="/board/search",method= {RequestMethod.GET,RequestMethod.POST})
+	public String search(@RequestParam("searchText")String text,@RequestParam("selectOption") String option,Model model) {
+		List<BoardVo> searchList = boardService.searchBoard(text,option);
+        model.addAttribute("boardList", searchList);
+        return "board/searchList";
 	}
 }

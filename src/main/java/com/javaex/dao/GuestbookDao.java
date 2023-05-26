@@ -15,13 +15,13 @@ public class GuestbookDao {
 	private SqlSession sqlSession;
 	
 	public int addGuestBook(GuestbookVo guestbookVo) {
-		return sqlSession.insert("mysite.addGuestBook", guestbookVo);
+		return sqlSession.insert("guestbook.addGuestBook", guestbookVo);
 	}
 	public List<GuestbookVo> getAddList(){
-		return sqlSession.selectList("mysite.getAddList");
+		return sqlSession.selectList("guestbook.getAddList");
 	}
 	public int deleteGuestbook(GuestbookVo guestbookVo) {
-		return sqlSession.delete("mysite.deleteGuestbook",guestbookVo);
+		return sqlSession.delete("guestbook.deleteGuestbook",guestbookVo);
 	}
 	
 

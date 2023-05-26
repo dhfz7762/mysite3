@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper namespace="boardpage">
+<select id="countBoard" resultType="int">
+<![CDATA[
+select count(*) from board
+]]>
+</select>
+<select id="selectBoard" resultType="com.javaex.vo.BoardVo">
+<![CDATA[
+select *
+from (select rownum rn, a.*
+from(select * from board
+order by no desc) a )
+where rn between #{start} and #{end}
+]]>
+</select>
+</mapper>

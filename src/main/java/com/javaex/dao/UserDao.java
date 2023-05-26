@@ -13,15 +13,15 @@ public class UserDao {
 	private SqlSession sqlSession;
 	
 	public int insertUser(UserVo userVo) {
-		int count = sqlSession.insert("mysite.insertUser",userVo);
+		int count = sqlSession.insert("user.insertUser",userVo);
 		return count;
 	}
 	public UserVo loginUser(UserVo userVo) {
-		return sqlSession.selectOne("mysite.loginUser",userVo);
+		return sqlSession.selectOne("user.loginUser",userVo);
 	}
 	public int modifyUser(UserVo userVo) {
 		System.out.println(userVo);
-		return sqlSession.update("mysite.modifyUser",userVo);
+		return sqlSession.update("user.modifyUser",userVo);
 	}
 
 }

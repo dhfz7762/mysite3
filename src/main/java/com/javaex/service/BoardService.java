@@ -32,6 +32,9 @@ public class BoardService {
 	public int hitBoard(int no) {
 		return boardDao.hitBoard(no);
 	}
+	public List<BoardVo> searchBoard(String text,String option){
+		return boardDao.searchBoard(text,option);
+	}
 	
 
 }
