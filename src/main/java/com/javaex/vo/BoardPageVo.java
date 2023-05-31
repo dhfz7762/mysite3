@@ -4,6 +4,7 @@ public class BoardPageVo {
 	// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
 		private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 		private int cntPage = 5;
+		private String text;
 		public BoardPageVo() {
 			super();
 		}
@@ -14,6 +15,15 @@ public class BoardPageVo {
 			calcLastPage(getTotal(), getCntPerPage());
 			calcStartEndPage(getNowPage(), cntPage);
 			calcStartEnd(getNowPage(), getCntPerPage());
+		}
+		public BoardPageVo( int total,int nowPage, int cntPerPage, String text) {
+			setNowPage(nowPage);
+			setCntPerPage(cntPerPage);
+			setTotal(total);
+			calcLastPage(getTotal(), getCntPerPage());
+			calcStartEndPage(getNowPage(), cntPage);
+			calcStartEnd(getNowPage(), getCntPerPage());
+			this.text=text;
 		}
 		public int getNowPage() {
 			return nowPage;
@@ -69,11 +79,18 @@ public class BoardPageVo {
 		public void setCntPage(int cntPage) {
 			this.cntPage = cntPage;
 		}
+		public String getText() {
+			return text;
+		}
+		public void setText(String text) {
+			this.text = text;
+		}
+		
 		@Override
 		public String toString() {
 			return "BoardPageVo [nowPage=" + nowPage + ", startPage=" + startPage + ", endPage=" + endPage + ", total="
 					+ total + ", cntPerPage=" + cntPerPage + ", lastPage=" + lastPage + ", start=" + start + ", end="
-					+ end + ", cntPage=" + cntPage + "]";
+					+ end + ", cntPage=" + cntPage + ", text=" + text + "]";
 		}
 		// 제일 마지막 페이지 계산
 		public void calcLastPage(int total, int cntPerPage) {

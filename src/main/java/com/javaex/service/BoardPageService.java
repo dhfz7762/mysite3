@@ -22,5 +22,8 @@ public class BoardPageService {
 	public List<BoardVo> selectBoard(BoardPageVo vo) {
 		return boardPageDao.selectBoard(vo);
 	}
+	public List<BoardVo> searchBoard(BoardPageVo vo,String option){
+		return boardPageDao.searchBoard(vo,option);
+	}
 
 }

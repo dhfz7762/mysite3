@@ -22,5 +22,14 @@ public class BoardPageDao {
 	public List<BoardVo> selectBoard(BoardPageVo vo) {
 		return sqlSession.selectList("boardpage.selectBoard",vo);
 	}
+	public List<BoardVo> searchBoard(BoardPageVo vo,String option) {
+		if(option.equals("username")) {
+			return sqlSession.selectList("boardpage.selectUsernameBoard",vo);
+		}
+		else {
+			return sqlSession.selectList("boardpage.selectTitleBoard",vo);
+		}
+		
+	}
 
 }

@@ -20,8 +20,41 @@ from(select b.no,
 from board b join uservo a on a.no = b.user_no
 order by b.no desc) a )
 where rn between #{start} and #{end}
+]]>
 
-
+</select>
+<select id="selectUsernameBoard" resultType="com.javaex.vo.BoardVo">
+<![CDATA[
+select *
+from (select rownum rn, a.*
+from(select b.no,
+       b.title,
+       b.content,
+       b.hit,
+       to_char(b.reg_date,'YYYY/MM/DD') regDate,
+       a.name username,
+       b.user_no
+from board b join uservo a on a.no = b.user_no
+where a.name like '%'||#{text}||'%'
+order by b.no desc) a )
+where rn between #{start} and #{end}
+]]>
+</select>
+<select id="selectTitleBoard" resultType="com.javaex.vo.BoardVo">
+<![CDATA[
+select *
+from (select rownum rn, a.*
+from(select b.no,
+       b.title,
+       b.content,
+       b.hit,
+       to_char(b.reg_date,'YYYY/MM/DD') regDate,
+       a.name username,
+       b.user_no
+from board b join uservo a on a.no = b.user_no
+where b.title like '%'||#{text}||'%'
+order by b.no desc) a )
+where rn between #{start} and #{end}
 ]]>
 </select>
 </mapper>

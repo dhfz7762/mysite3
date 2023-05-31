@@ -49,8 +49,6 @@ public class BoardController {
 	}
 	@RequestMapping(value="/board/writeForm",method= {RequestMethod.GET,RequestMethod.POST})
 	public String writeForm() {
-		
-		
 		return "board/writeForm";
 	}
 	@RequestMapping(value="/board/write",method= {RequestMethod.GET,RequestMethod.POST})
@@ -87,9 +85,22 @@ public class BoardController {
 		return "redirect:/board/list";	
 	}
 	@RequestMapping(value="/board/search",method= {RequestMethod.GET,RequestMethod.POST})
-	public String search(@RequestParam("searchText")String text,@RequestParam("selectOption") String option,Model model) {
-		List<BoardVo> searchList = boardService.searchBoard(text,option);
-        model.addAttribute("boardList", searchList);
-        return "board/searchList";
+	public String search(@RequestParam("searchText")String text,@RequestParam("selectOption") String option,Model model,
+			BoardPageVo vo,@RequestParam(value="nowPage", required=false)String nowPage
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+		int total = boardPageService.countBoard();
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "5";
+		}
+		vo = new BoardPageVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),text);
+		
+		model.addAttribute("paging", vo);
+		model.addAttribute("boardList", boardPageService.searchBoard(vo,option));
+        return "board/list";
 	}
 }
