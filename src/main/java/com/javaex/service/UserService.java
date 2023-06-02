@@ -21,5 +21,8 @@ public class UserService {
 	public int modifyUser(UserVo userVo) {
 		return userDao.modifyUser(userVo);
 	}
+	public UserVo idcheck(String id) {
+		return userDao.selectUser(id);
+	}
 
 }

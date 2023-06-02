@@ -9,6 +9,7 @@
 <link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet" type="text/css">
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 </head>
 
 <body>
@@ -52,7 +53,8 @@
 						<div class="form-group">
 							<label class="form-text" for="input-uid">아이디</label> 
 							<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요" autofocus required onKeypress="javascript:if(event.keyCode==13) {search_onclick_submit}">
-							<button type="button" id="">중복체크</button>
+							<button type="button" id="btnIdCheck">중복체크</button><br>
+							<p id="idcheckMsg">ㅎㅇ</p>
 						</div>
 
 						<!-- 비밀번호 -->
@@ -109,4 +111,51 @@
 
 </body>
 
+<script type="text/javascript">
+//아이디체크버튼 클릭했을때
+$("#btnIdCheck").on("click",function(){
+	console.log("메롱");
+	//id 추출
+	var id = $("[name=id]").val()
+	console.log(id);
+	//통신 id
+	$.ajax({
+		
+		url : "${pageContext.request.contextPath }/user/idcheck",
+		type : "post",
+		//contentType : "application/json",
+		data : {id:id},
+
+		dataType : "json",
+		success : function(userVo){
+			if(userVo == null){
+				//사용가능
+				$("#idcheckMsg").html(id+"는 사용가능");
+			}
+			else {
+				//사용불가
+				$("#idcheckMsg").html(id+"는 사용불가");
+			}
+			/*성공시 처리해야될 코드 작성*/
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+
+	
+	//응답
+	/*var userVo = {
+			no:1,
+			name:"홍길동",
+			id:"aaa",
+			password:"1323",
+			gender:"male"
+	};
+    var userVo = null;
+    */
+	//처리
+	
+})
+</script>
 </html>

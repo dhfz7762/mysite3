@@ -23,5 +23,10 @@ public class UserDao {
 		System.out.println(userVo);
 		return sqlSession.update("user.modifyUser",userVo);
 	}
+	public UserVo selectUser(String id) {
+		UserVo dd = sqlSession.selectOne("user.selectUser",id);
+		System.out.println(dd);
+		return dd;
+	}
 
 }

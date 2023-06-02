@@ -38,4 +38,12 @@ set password=#{password},
 where no=#{no} and id=#{id}
 ]]>
 </update>
+<select id="selectUser" resultType="com.javaex.vo.UserVo">
+<![CDATA[
+select no,id from uservo
+where id = #{id}
+]]>
+
+
+</select>
 </mapper>
