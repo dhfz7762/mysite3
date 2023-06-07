@@ -2,97 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="board">
-<insert id="writeBoard" parameterType="com.javaex.vo.BoardVo">
-<![CDATA[
-insert into board
-           (no,
-            title,
-            content,
-            hit,
-            reg_date,
-            user_no)
-values (seq_board_no.nextval,
-        #{title},
-        #{content},
-        0,
-        sysdate,
-        #{user_no})
-]]>
-</insert>
-<delete id="deleteBoard" parameterType="com.javaex.vo.BoardVo">
-<![CDATA[
-delete from Board
-where no=#{no}
-]]>
-</delete>
-<select id="getBoardList" resultType="com.javaex.vo.BoardVo">
-<![CDATA[
-select b.no,
-       b.title,
-       b.content,
-       b.hit,
-       to_char(b.reg_date,'YYYY/MM/DD') regDate,
-       a.name username,
-       b.user_no
-from board b join uservo a on a.no = b.user_no
-order by b.no desc
-]]>
-</select>
-<select id="searchUsernameBoard" resultType="com.javaex.vo.BoardVo">
-<![CDATA[
-select b.no,
-       b.title,
-       b.content,
-       b.hit,
-       to_char(b.reg_date,'YYYY/MM/DD') regDate,
-       a.name username,
-       b.user_no
-from board b join uservo a on a.no = b.user_no
-where a.name like '%'||#{username}||'%'
-order by b.no desc
-]]>
-</select>
-<select id="searchTitleBoard" resultType="com.javaex.vo.BoardVo">
-<![CDATA[
-select b.no,
-       b.title,
-       b.content,
-       b.hit,
-       to_char(b.reg_date,'YYYY/MM/DD') regDate,
-       a.name username,
-       b.user_no
-from board b join uservo a on a.no = b.user_no
-where b.title like '%'||#{title}||'%'
-order by b.no desc
-]]>
-</select>
-<select id="readBoard" resultType="com.javaex.vo.BoardVo">
-<![CDATA[
-select b.no,
-       b.title,
-       b.content,
-       b.hit,
-       to_char(b.reg_date,'YYYY/MM/DD') regDate,
-       a.name username,
-       b.user_no
-from board b join uservo a on a.no = b.user_no
-where b.no = #{no}
-]]>
-</select>
-<update id="hitCount" parameterType="int">
-<![CDATA[
-update board
-set hit=hit+1
-where no=#{no}
-]]>
-</update>
-<update id="modifyBoard" parameterType="com.javaex.vo.BoardVo">
-<![CDATA[
-update board
-set title=#{title},
-content=#{content}
-where no=#{no}
-]]>
-</update>
+
+    <!-- 게시판 글수정 -->
+    <update id="updateBoard" parameterType="com.javaex.vo.BoardVo">
+      <![CDATA[
+      	update board set title = #{title},
+                         content = #{content}
+        where no = #{no} 
+      ]]>
+    </update>
+
+
+    <!-- 게시판 글수정폼(하나의 게시판글 가져오기) -->
+    <select id="selectOne" parameterType="int" resultType="com.javaex.vo.BoardVo">
+     <![CDATA[
+        select a.no, 
+               a.title,
+               a.content,
+               b.name user_name,
+               a.hit,
+               to_char(a.reg_date, 'YYYY-MM-DD HH:MI') regDate,
+               a.user_no
+        from board  a, users  b
+        where a.user_no = b.no
+        and a.no=#{no}
+     ]]>
+    </select>
+
+
+    <!-- 게시판 글삭제(로그인 상태에서만 가능) -->
+    <delete id="delete" parameterType="com.javaex.vo.BoardVo">
+      <![CDATA[
+         delete from board
+         where no= #{no}
+      ]]>
+    </delete>
+
+
+    <!-- 게시판 글쓰기(로그인 상태에서만 가능)-->
+    <insert id="insertBoard" parameterType="com.javaex.vo.BoardVo">
+      <![CDATA[
+        insert into board (no,
+                    title,
+                    content,
+                    hit,
+                    reg_Date,
+                    user_no)
+        values (seq_board_no.nextval,
+                #{title},
+                #{content},
+                0,
+                sysdate,
+                #{user_no})
+       ]]>
+    </insert>
+    
+
+    <!-- 게시판 전체 리스트와 검색 -->
+	<select id="selectList" parameterType="string" resultType="com.javaex.vo.BoardVo">
+	  <![CDATA[
+        select a.no, 
+               a.title,
+               a.content,
+               b.name user_name,
+               a.hit,
+               to_char(a.reg_date, 'YYYY-MM-DD HH:MI') regDate,
+               a.user_no
+        from board  a, users  b
+        where a.user_no = b.no
+       ]]>   
+        <if test=" value != '' ">
+        and a.title like '%'||#{keyword}||'%'
+        </if>
+      <![CDATA[  
+        order by reg_date desc	
+	  ]]>
+	</select>
 
 </mapper>

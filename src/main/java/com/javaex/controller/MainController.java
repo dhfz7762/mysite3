@@ -6,10 +6,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MainController {
-
-	@RequestMapping(value="/main",method= {RequestMethod.GET,RequestMethod.POST})
-	public String main() {
+	
+	//필드
+	//생성자
+	//메소드 gs 
+	//메소드 일반
+	
+	@RequestMapping(value="/main",method = {RequestMethod.GET,RequestMethod.POST})
+	public String main(){
+		System.out.println("MainController.main()");
 		
-		return "main/main";
+		
+		return "/main/main";
 	}
+
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +14,18 @@
 <body>
 	<div id="wrap">
 
-		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+        <c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 
-		<c:import url="/WEB-INF/views/include/nav.jsp"></c:import>
+		<div id="nav">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/guestbook/addList">방명록</a></li>
+				<li><a href="">갤러리</a></li>
+				<li><a href="${pageContext.request.contextPath}/board/list">게시판</a></li>
+				<li><a href="">입사지원서</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
 		<!-- //nav -->
 
 		<div id="aside">
@@ -51,7 +59,7 @@
 					<p class="text-large bold">
 						회원가입을 축하합니다.<br>
 						<br>
-						<a href="" >[로그인하기]</a>
+						<a href="${pageContext.request.contextPath}/user/loginForm" >[로그인하기]</a>
 					</p>
 						
 				</div>
@@ -62,7 +70,7 @@
 		<!-- //content  -->
 		<div class="clear"></div>
 
-		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
+        <c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>

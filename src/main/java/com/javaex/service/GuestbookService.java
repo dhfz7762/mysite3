@@ -14,15 +14,38 @@ public class GuestbookService {
 	@Autowired
 	private GuestbookDao guestbookDao;
 	
-	public int addGuestBook(GuestbookVo guestbookVo) {
-		return guestbookDao.addGuestBook(guestbookVo);
-	}
-	public List<GuestbookVo> getAddList(){
-		return guestbookDao.getAddList();
-	}
-	public int deleteGuestbook(GuestbookVo guestbookVo) {
-		return guestbookDao.deleteGuestbook(guestbookVo);
+	//방명록삭제 폼
+	public void deleteGuest(GuestbookVo guestbookVo) {
+		System.out.println("GuestbookService.deleteGuest()");
+        guestbookDao.deleteGuest(guestbookVo);
 	}
 	
+	//방명록 리스트
+	public List<GuestbookVo> getGuestList() {
+		System.out.println("GuestbookService.getGuestList()");
+		
+		List<GuestbookVo> guestbookList = guestbookDao.selectGuestList();
+		return guestbookList;
+	}
+	
+	//방명록 등록
+	public void addGuest(GuestbookVo guestbookVo) {
+		System.out.println("GuestbookService.addGuest()");
+		guestbookDao.insertGuest(guestbookVo);
+		
+	}
+	
+	//ajax방명록 등록때 사용
+	public GuestbookVo addGuestList(GuestbookVo guestbookVo) {
+		System.out.println("GuestbookService.addGuestResultVo()");
+		
+		//글등록 no확인
+		guestbookDao.insertSelectKey(guestbookVo);
+		int no = guestbookVo.getNo();
+		
+		//no 글가져오기
+		GuestbookVo guestVo = guestbookDao.selectGuest(no);
+		return guestVo;
+	}
 
 }

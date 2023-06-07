@@ -12,17 +12,48 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	public int insertUser(UserVo userVo) {
-		return userDao.insertUser(userVo);
+	//로그인
+	public UserVo login(UserVo userVo) {
+		System.out.println("UserService.login()");
+		
+		UserVo authUser = userDao.selectUser(userVo);
+		return authUser;
 	}
-	public UserVo loginUser(UserVo userVo) {
-		return userDao.loginUser(userVo);
+	
+	
+	//회원등록
+	public int join(UserVo userVo) {
+		System.out.println("UserService.join");
+		
+		int count = userDao.insertUser(userVo);
+		return count;
 	}
-	public int modifyUser(UserVo userVo) {
-		return userDao.modifyUser(userVo);
+	
+	
+	//회원정보수정폼
+	public UserVo modifyForm(int no) {
+		
+		System.out.println("UserService.modify()");
+		UserVo userVo = userDao.selectUser(no);
+		return userVo;
 	}
-	public UserVo idcheck(String id) {
-		return userDao.selectUser(id);
+	
+	//회원정보수정
+	public int modify(UserVo userVo) {
+		System.out.println("UserService.modify()");
+		int count = userDao.updateUser(userVo);
+		return count;
 	}
-
+	
+	//아이디 중복체크
+	public boolean idcheck(String id) {
+		System.out.println("UserService.idcheck()");
+		UserVo userVo = userDao.selectUser(id);
+		
+		if(userVo == null) { //사용가능
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

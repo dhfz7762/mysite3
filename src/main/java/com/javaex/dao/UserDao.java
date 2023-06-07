@@ -12,21 +12,43 @@ public class UserDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//로그인 --> 세션 저장용
+	public UserVo selectUser(UserVo userVo) {
+		System.out.println("UserDao.selectUser");
+		UserVo authUser = sqlSession.selectOne("user.selectUser",userVo);
+		return authUser;
+	}
+		
+	//회원등록
 	public int insertUser(UserVo userVo) {
-		int count = sqlSession.insert("user.insertUser",userVo);
+		System.out.println("UserDao.insertUser()");
+		
+		int count= sqlSession.insert("user.insert",userVo);
 		return count;
 	}
-	public UserVo loginUser(UserVo userVo) {
-		return sqlSession.selectOne("user.loginUser",userVo);
-	}
-	public int modifyUser(UserVo userVo) {
-		System.out.println(userVo);
-		return sqlSession.update("user.modifyUser",userVo);
-	}
-	public UserVo selectUser(String id) {
-		UserVo dd = sqlSession.selectOne("user.selectUser",id);
-		System.out.println(dd);
-		return dd;
-	}
-
+	
+	//회원정보수정폼용(회원정보1명 가져오기)
+    public UserVo selectUser(int no) {
+    	System.out.println("UserDao.selectUser()");
+        UserVo userVo = sqlSession.selectOne("user.selectUserByNo", no);
+    	return userVo;
+    }
+    
+    //회원정보수정
+    public int updateUser(UserVo userVo) {
+    	System.out.println("UserDao.updateUser()");
+    	System.out.println("update"+userVo);
+    	int count = sqlSession.update("user.updateUser", userVo);
+    	return count;
+    }
+    
+    
+    //아이디 중복체크
+    public UserVo selectUser(String id) {
+    	System.out.println("UserDao.selectUser");
+    	UserVo userVo = sqlSession.selectOne("user.selectUserById",id);
+    	
+    	return userVo;
+    }
+    
 }

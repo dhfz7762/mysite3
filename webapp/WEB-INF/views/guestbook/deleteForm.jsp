@@ -1,25 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="${pageContext.request.contextPath}/assets/css/mysite.css"
-	rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/assets/css/guestbook.css"
-	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
 	<div id="wrap">
 
-		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+        <c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 
-		<c:import url="/WEB-INF/views/include/nav.jsp"></c:import>
+		<div id="nav">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/guestbook/addList">방명록</a></li>
+				<li><a href="">갤러리</a></li>
+				<li><a href="${pageContext.request.contextPath}/board/list">게시판</a></li>
+				<li><a href="">입사지원서</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
 		<!-- //nav -->
 
 		<div id="aside">
@@ -47,7 +53,7 @@
             <!-- //content-head -->
 
 			<div id="guestbook">
-				<form action="delete" method="post">
+				<form action="${pageContext.request.contextPath}/guestbook/delete" method="get">
 					<table id="guestDelete">
 						<colgroup>
 							<col style="width: 10%;">
@@ -56,13 +62,14 @@
 							<col style="width: 25%;">
 						</colgroup>
 						<tr>
-						<input type="hidden" name="no" value="${guestbookVo.no}">
 							<td>비밀번호</td>
 							<td><input type="password" name="password"></td>
 							<td class="text-left"><button type="submit">삭제</button></td>
-							<td><a href="${pageContext.request.contextPath}/guestbook/addList">[메인으로 돌아가기]</a></td>
+							<td><a href="${pageContext.request.contextPath}/main">[메인으로 돌아가기]</a></td>
 						</tr>
 					</table>
+					<input type='hidden' name="no" value="${param.no}">
+					<input type='hidden' name="" value="">
 				</form>
 				
 			</div>
@@ -70,8 +77,8 @@
 		</div>
 		<!-- //content  -->
 		<div class="clear"></div>
-
-		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
+		
+        <c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>
@@ -80,3 +87,4 @@
 </body>
 
 </html>
+    
