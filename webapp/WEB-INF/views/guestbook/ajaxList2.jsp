@@ -87,25 +87,7 @@
 					
 				<!-- </form>	 -->
 				<div id="guestbookListArea">
-					<c:forEach items="${guestList}" var="guestVo">
-						<table id="t-${guestVo.no}" class="guestRead">
-							<colgroup>
-								<col style="width: 10%;">
-								<col style="width: 40%;">
-								<col style="width: 40%;">
-								<col style="width: 10%;">
-							</colgroup>
-							<tr>
-								<td>${guestVo.no}</td>
-								<td>${guestVo.name}</td>
-								<td>${guestVo.regDate}</td>
-								<td><button type="button" class="btn btn-primary btn-sm btnModal" data-delno="${guestVo.no}">삭제</button></td>
-							</tr>
-							<tr>
-								<td colspan=4 class="text-left">${guestVo.content}</td>
-							</tr>
-						</table>
-					</c:forEach>
+					출력
 				</div>	
 				<!-- //guestRead -->
 				
@@ -149,6 +131,73 @@
 </body>
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+	//전체리스트 호출 가져오기
+	fetchList();
+
+});	
+function fetchList(){
+$.ajax({
+		
+		url : "${pageContext.request.contextPath }/api/guestbook/list",		
+		type : "post",
+
+		dataType : "json",
+		success : function(jsonResult){
+			
+			var guestList = jsonResult.data;
+			for(var i=0; i<guestList.length; i++){
+				render(guestList[i],"down");
+				
+			}
+		},
+		error : function(XHR, status, error) { 
+			console.error(status + " : " + error);
+		}
+    });
+};	
+
+function render(guestVo,dir){
+	
+	var str ="";
+	str += '<table id="t-'+guestVo.no+'"class="guestRead">';
+	str += '  <colgroup>';
+	str += '	  <col style="width: 10%;">';
+	str += '	  <col style="width: 40%;">';
+	str += '	  <col style="width: 40%;">';
+	str += '	  <col style="width: 10%;">';
+	str += '  </colgroup>';
+	
+	str += '  <tr>';
+	str += '      <td>' + guestVo.no +'</td>';
+	str += '      <td>' + guestVo.name + '</td>';
+	str += '      <td>' + guestVo.regDate + '</td>';
+	str += '      <td><button type="button" class="btn btn-primary btn-sm btnModal" data-delno="'+guestVo.no+'">삭제</button></td>';
+	str += '  </tr>';
+
+	str += '  <tr>';
+	str += '      <td colspan=4 class="text-left">' + guestVo.content + '</td>';
+	str += '  </tr>';
+	str += '</table>';
+	
+	if(dir == 'up'){
+		$("#guestbookListArea").prepend(str);
+	}
+	else if (dir == 'down'){
+		$("#guestbookListArea").append(str);
+	}
+	else{
+		console.log("ㅈㅈ");
+	}
+	
+}
+	
+	
+
+
+
+
 
 $("#btnDel").on("click",function(){
 	console.log("Dd");
@@ -222,19 +271,21 @@ $("#btnSubmit").on("click", function(){
 	var password = $("[name='password']").val();
 	var content = $("[name='content']").val();
 	
-	var guestVo ={
+	var guestbookVo ={
 	    name: name,
 	    password: password,
 	    content: content
 	};
 	
+
+	
 	//ajax통신 ->요청은 같은 기술 응답이 데이터만 온다
 	$.ajax({
 		
-		url : "${pageContext.request.contextPath }/api/guestbook/add",		
+		url : "${pageContext.request.contextPath }/api/guestbook/add2",		
 		type : "post",
-		//contentType : "application/json",
-		data : guestVo,
+		contentType : "application/json",
+		data : JSON.stringify(guestbookVo),
 
 		dataType : "json",
 		success : function(jsonResult){

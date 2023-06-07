@@ -15,9 +15,8 @@ public class GuestbookService {
 	private GuestbookDao guestbookDao;
 	
 	//방명록삭제 폼
-	public void deleteGuest(GuestbookVo guestbookVo) {
-		System.out.println("GuestbookService.deleteGuest()");
-        guestbookDao.deleteGuest(guestbookVo);
+	public int deleteGuest(GuestbookVo guestbookVo) {
+        return guestbookDao.deleteGuest(guestbookVo);
 	}
 	
 	//방명록 리스트

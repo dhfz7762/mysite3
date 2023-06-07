@@ -53,6 +53,8 @@ public class GuestbookController {
 		
 		return "redirect:/guestbook/addList";
 	}
+	//ajax 삭제
+	
 	
 
 	

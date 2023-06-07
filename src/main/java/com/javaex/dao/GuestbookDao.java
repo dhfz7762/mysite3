@@ -15,11 +15,10 @@ public class GuestbookDao {
 	private SqlSession sqlSession;
 	
 	//방명록 삭제
-	public void deleteGuest(GuestbookVo guestbookVo) {
+	public int deleteGuest(GuestbookVo guestbookVo) {
 		System.out.println("GuestbookDao.deleteGuest()");
 		
-		int count = sqlSession.delete("guestbook.delete",guestbookVo);
-		System.out.println(count);
+		return sqlSession.delete("guestbook.delete",guestbookVo);
 		
 	}
 	
