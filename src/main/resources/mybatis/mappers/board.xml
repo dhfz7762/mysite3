@@ -23,7 +23,7 @@
                a.hit,
                to_char(a.reg_date, 'YYYY-MM-DD HH:MI') regDate,
                a.user_no
-        from board  a, users  b
+        from board  a, uservo  b
         where a.user_no = b.no
         and a.no=#{no}
      ]]>
@@ -68,7 +68,7 @@
                a.hit,
                to_char(a.reg_date, 'YYYY-MM-DD HH:MI') regDate,
                a.user_no
-        from board  a, users  b
+        from board  a, uservo  b
         where a.user_no = b.no
        ]]>   
         <if test=" value != '' ">
