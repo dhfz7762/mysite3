@@ -63,15 +63,16 @@
 
 						<!-- 이미지반복영역 -->
 						<c:forEach items="${GalleryList}" var="GalleryVo">
-						<div id="t-${GalleryVo.no}">
+							<div id="t-${GalleryVo.no}">
 								<div class="view">
-								<input type="hidden" id="delno" value="">
-									<img class="imgItem" data-num="${GalleryVo.no}" data-delno="${GalleryVo.user_no}" data-img="${pageContext.request.contextPath }/upload/${GalleryVo.saveName}" src="${pageContext.request.contextPath }/upload/${GalleryVo.saveName}">
+									<input type="hidden" id="delno" value=""> <img class="imgItem" data-num="${GalleryVo.no}" data-delno="${GalleryVo.user_no}"
+										data-img="${pageContext.request.contextPath }/upload/${GalleryVo.saveName}"
+										src="${pageContext.request.contextPath }/upload/${GalleryVo.saveName}">
 									<div class="imgWriter">
 										작성자: <strong>${GalleryVo.username}</strong>
 									</div>
 								</div>
-						    </div>
+							</div>
 						</c:forEach>
 						<!-- 이미지반복영역 -->
 
@@ -106,7 +107,7 @@
 
 				<form method="post" action="upload" enctype="multipart/form-data">
 					<div class="modal-body">
-					<input type="hidden" id="" name="user_no" value="${sessionScope.authUser.no}">
+						<input type="hidden" id="" name="user_no" value="${sessionScope.authUser.no}">
 						<div class="form-group">
 							<label class="form-text">글작성</label> <input id="addModalContent" type="text" name="text" value="">
 						</div>
@@ -150,11 +151,10 @@
 					</div>
 
 				</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-						<input id="modalNo" type="hidden" name="no">
-						<input id="modalNum" type="hidden" name="no">
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<input id="modalNo" type="hidden" name="no"> <input id="modalNum" type="hidden" name="no">
+				</div>
 
 			</div>
 			<!-- /.modal-content -->
@@ -179,11 +179,13 @@ $("#viewArea").on("click",".imgItem",function(){
 	var img=$(this).data("img");
 	$("#modalNo").val(no);
 	$("#modalNum").val(num);
-	if(no==${sessionScope.authUser.no}){
-		var str ="";
-		str += '<button type="button" class="btn btn-danger btnDel" id="btnDel">삭제</button>';
-		$(".modal-footer").append(str);
-	}
+	var se = ${sessionScope.authUser.no}+"";
+	    if(no==se){
+		    var str ="";
+		    str += '<button type="button" class="btn btn-danger btnDel" id="btnDel">삭제</button>';
+		    $(".modal-footer").append(str);
+	    }
+	
 	$("#viewModelImg").attr("src", img);
 	$("#viewModal").modal("show");
 });

@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +23,16 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	//게시판 리스트 페이징기능 포함
+	@RequestMapping(value="/board/list3", method = {RequestMethod.GET,RequestMethod.POST})
+	public String list3(Model model, @RequestParam(value="crtPage",required = false , defaultValue="1")int crtPage,
+			@RequestParam(value="keyword", required = false, defaultValue="") String keyword) {
+		System.out.println("list3");
+		
+		Map<String,Object> pMap = boardService.getList3(crtPage,keyword);
+		model.addAttribute("pMap", pMap);
+		return "/board/list3";
+	}
 	//게시판 수정
 	@RequestMapping(value="/board/modify", method = {RequestMethod.GET,RequestMethod.POST})
 	public String modify(@ModelAttribute BoardVo boardVo) {
@@ -58,7 +69,6 @@ public class BoardController {
 	public String write(HttpSession session,@ModelAttribute BoardVo boardVo) {
 		System.out.println("BoardController.write()");
         boardService.write(boardVo);
-		
 		return "redirect:/board/list";
 	}
 	
